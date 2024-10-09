@@ -271,3 +271,61 @@ function GoldFish(){}
 mixin(GoldFish.prototype, canEat, canSwim);
 const globFish = new GoldFish();
 console.log(globFish);
+
+// Example - Prototypical Inheritance
+function HTMLElement() {
+  this.click = function() {
+    console.log('clicked');
+  }
+}
+
+HTMLElement.prototype.focus = function() {
+    console.log('focused');
+};
+
+function HTMLSelectElement(items = []){
+  this.items = items;
+
+  this.addItem = function(item) {
+    this.items.push(item)
+    console.log('add item');
+  }
+
+  this.removeItem = function(item) {
+    this.items.splice(this.items.indexOf(item), 1);
+    console.log('remove item');
+  }
+
+  this.render = function() {
+    console.log('render');
+    return `<select>${this.items.map(item => `<option>${item}</option>`).join('')}</select>`;
+  }
+}
+
+// HTMLSelectElement.prototype = Object.create(HTMLElement.prototype);
+HTMLSelectElement.prototype = new HTMLElement();
+
+//below are simillar
+// HTMLSelectElement.prototype.constructor = HTMLSelectElement;
+
+// Excercise - Polymorphism
+//
+
+function HtmlImgSelect(src){
+  this.src =  src;
+  this.render = function() {
+    console.log('render');
+    return `<img src="${this.src}">`;
+  }
+}
+
+HtmlImgSelect.prototype = new HTMLElement();
+HtmlImgSelect.prototype.constructor = HtmlImgSelect;
+
+const elements = [
+  new HTMLSelectElement(['a', 'b', 'c']),
+  new HtmlImgSelect('http://')
+];
+
+for (let element of elements)
+  console.log(element.render());
