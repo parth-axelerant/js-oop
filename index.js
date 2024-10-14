@@ -189,121 +189,121 @@
 
 // intermediate function inheritance
 // Method overriding
-function extend(Child, Parent) {
-  Child.prototype = Object.create(Parent.prototype);
-  Child.prototype.constructor = Child;
-}
+// function extend(Child, Parent) {
+//   Child.prototype = Object.create(Parent.prototype);
+//   Child.prototype.constructor = Child;
+// }
 
-function Shape(){
-}
+// function Shape(){
+// }
 
-Shape.prototype.duplicate = function() {
-  console.log('duplicate');
-};
+// Shape.prototype.duplicate = function() {
+//   console.log('duplicate');
+// };
 
-function Circle1(){
+// function Circle1(){
 
-}
+// }
 
-Circle1.prototype.duplicate = function() {
-  console.log('duplicate');
-};
+// Circle1.prototype.duplicate = function() {
+//   console.log('duplicate');
+// };
 
-extend(Shape, Circle1);
+// extend(Shape, Circle1);
 
-Circle1.prototype.duplicate = function() {
-  // Shape.prototype.duplicate.call(this);
-  console.log('duplicate circle1');
-};
+// Circle1.prototype.duplicate = function() {
+//   // Shape.prototype.duplicate.call(this);
+//   console.log('duplicate circle1');
+// };
 
 // const c1 = new Circle1();
 
 // Polymorphism = Multiple Forms
 
-function Square() {
-}
+// function Square() {
+// }
 
-extend(Square, Shape);
+// extend(Square, Shape);
 
-Square.prototype.duplicate = function() {
-  console.log('duplicate square');
-};
+// Square.prototype.duplicate = function() {
+//   console.log('duplicate square');
+// };
 
-const shapes = [new Circle1(), new Shape(), new Square()];
-for (let shape of shapes)
-  shape.duplicate();
+// const shapes = [new Circle1(), new Shape(), new Square()];
+// for (let shape of shapes)
+//   shape.duplicate();
 
 
 // Use inheritance for one level only
 // Compositions
 // Object.assign - Copy properties from one object to another
 
-function mixin(target, ...sources) {
-  Object.assign(target, ...sources);
-}
+// function mixin(target, ...sources) {
+//   Object.assign(target, ...sources);
+// }
 
-const canEat = {
-  eat: function() {
-    this.hunger--;
-    console.log('eating');
-  }
-}
+// const canEat = {
+//   eat: function() {
+//     this.hunger--;
+//     console.log('eating');
+//   }
+// }
 
-const canWalk = {
-  walk: function() {
-    console.log('walking');
-  }
-}
+// const canWalk = {
+//   walk: function() {
+//     console.log('walking');
+//   }
+// }
 
-const canSwim = {
-  swim: function() {
-    console.log('swimming');
-  }
-}
+// const canSwim = {
+//   swim: function() {
+//     console.log('swimming');
+//   }
+// }
 
-function Person(){}
+// function Person(){}
 
-mixin(Person.prototype, canEat, canWalk);
-const person = new Person();
-console.log(person);
+// mixin(Person.prototype, canEat, canWalk);
+// const person = new Person();
+// console.log(person);
 
-function GoldFish(){}
-mixin(GoldFish.prototype, canEat, canSwim);
-const globFish = new GoldFish();
-console.log(globFish);
+// function GoldFish(){}
+// mixin(GoldFish.prototype, canEat, canSwim);
+// const globFish = new GoldFish();
+// console.log(globFish);
 
 // Example - Prototypical Inheritance
-function HTMLElement() {
-  this.click = function() {
-    console.log('clicked');
-  }
-}
+// function HTMLElement() {
+//   this.click = function() {
+//     console.log('clicked');
+//   }
+// }
 
-HTMLElement.prototype.focus = function() {
-    console.log('focused');
-};
+// HTMLElement.prototype.focus = function() {
+//     console.log('focused');
+// };
 
-function HTMLSelectElement(items = []){
-  this.items = items;
+// function HTMLSelectElement(items = []){
+//   this.items = items;
 
-  this.addItem = function(item) {
-    this.items.push(item)
-    console.log('add item');
-  }
+//   this.addItem = function(item) {
+//     this.items.push(item)
+//     console.log('add item');
+//   }
 
-  this.removeItem = function(item) {
-    this.items.splice(this.items.indexOf(item), 1);
-    console.log('remove item');
-  }
+//   this.removeItem = function(item) {
+//     this.items.splice(this.items.indexOf(item), 1);
+//     console.log('remove item');
+//   }
 
-  this.render = function() {
-    console.log('render');
-    return `<select>${this.items.map(item => `<option>${item}</option>`).join('')}</select>`;
-  }
-}
+//   this.render = function() {
+//     console.log('render');
+//     return `<select>${this.items.map(item => `<option>${item}</option>`).join('')}</select>`;
+//   }
+// }
 
 // HTMLSelectElement.prototype = Object.create(HTMLElement.prototype);
-HTMLSelectElement.prototype = new HTMLElement();
+// HTMLSelectElement.prototype = new HTMLElement();
 
 //below are simillar
 // HTMLSelectElement.prototype.constructor = HTMLSelectElement;
@@ -311,21 +311,160 @@ HTMLSelectElement.prototype = new HTMLElement();
 // Excercise - Polymorphism
 //
 
-function HtmlImgSelect(src){
-  this.src =  src;
-  this.render = function() {
-    console.log('render');
-    return `<img src="${this.src}">`;
+// function HtmlImgSelect(src){
+//   this.src =  src;
+//   this.render = function() {
+//     console.log('render');
+//     return `<img src="${this.src}">`;
+//   }
+// }
+// HtmlImgSelect.prototype = new HTMLElement();
+// HtmlImgSelect.prototype.constructor = HtmlImgSelect;
+
+// const elements = [
+//   new HTMLSelectElement(['a', 'b', 'c']),
+//   new HtmlImgSelect('http://')
+// ];
+
+// for (let element of elements)
+//   console.log(element.render());
+
+
+// Section 4 - ES6 Classes - Syntatic Sugar
+// ==========================================
+
+// Class declaration in ES6
+// class Circle {
+//   constructor(radius){
+//     this.radius = radius;
+//     this.move = function() {
+//       console.log('move')
+//     }
+//   }
+//   draw() {
+//     console.log('draw');
+//   }
+// }
+// const c = new Circle(1);
+// console.log(c);
+
+// Hoisting - raised at the top
+// Function Declaration - hoisted
+// Function Expression - not hoisted
+
+// Static Methods(don't need to call instance of class) vs Instance Methods
+// class Circle2 {
+//   constructor(radius){
+//     this.radius = radius;
+//   }
+
+//   draw() {
+//     console.log('draw');
+//   }
+
+//   static parse(str) { // to create utility methods that are not tied to particular objects i.e. Math.abs
+//     return JSON.parse(str);
+//   }
+// }
+// const c = new Circle2(1);
+// console.log(c);
+
+// this keyword
+'use strict';
+const circle = function(){
+  this.draw = function() {
+    console.log(this);
   }
 }
 
-HtmlImgSelect.prototype = new HTMLElement();
-HtmlImgSelect.prototype.constructor = HtmlImgSelect;
+const c = new circle();
+// Method call
+c.draw(); // Points to objec
+const draw = c.draw;
+// Function Call
+draw(); // Standalone method, points to global object
 
-const elements = [
-  new HTMLSelectElement(['a', 'b', 'c']),
-  new HtmlImgSelect('http://')
-];
+// Usage for private property and method
+// Private propery to be used for Abstraction
+// Private Members using Symbols ??
+// Private Members using WeakMaps ??
+// const _radius  = new Symbol();
+// console.log(_radius);
 
-for (let element of elements)
-  console.log(element.render());
+// Getters and Setters in ES6 Classes
+const _radius = new WeakMap();
+
+class Circle {
+  constructor(radius) {
+    _radius.set(this, radius);
+  }
+  get radius() {
+    return _radius.get(this);
+  }
+  set radius(value) {
+    _radius.set(this, value);
+  }
+}
+
+const c1 = new Circle(5);
+// Inheritance in ES6 Class
+// Parent Class
+class Shape {
+
+  constructor(color){
+    this.color = color;
+  }
+
+  move() {
+    console.log('move');
+  }
+}
+
+// Derived Class
+class Circle2 extends Shape {
+  constructor(color, radius) {
+    super(color); //initialize base class (reference parent class)
+    this.radius = radius;
+  }
+
+  draw() {
+    console.log('draw');
+  }
+}
+
+const c2 = new Circle2('red', 7);
+
+// Method overriding in ES6 Class
+class Shape2 {
+  move() {
+    console.log('Shape1');
+  }
+}
+
+class Circle3 extends Shape2 {
+  move() {
+    super.move();
+    console.log('Circle3 move');
+  }
+}
+const c3 = new Circle3();
+console.log(c3.move());
+
+// Section 4 - ES6 Tooling
+// ========================================
+//  ES2015 == ES6
+// modules
+// CommonJs modules
+// - by defautl its private we need to export it. (module.exports.xx)
+// - require to import it
+
+// Syntax of ES6 module , export keyword to one more module , import keyword to another module
+
+// ES6 Tooling (only for broswer application) => transpiler[translator + compiler] i.e. Babel + bundler(webpack)
+
+// Babel
+// - Babel is a JavaScript compiler that converts ES6 code to ES5
+// to run single file -> babel --presets env index.js -o build/index.js
+// using webpack to run multiple file -> webpack-cli init (generates configuration file)
+// webpack -w
+// npm init, npm run build
